@@ -1,0 +1,6 @@
+api_key: 
+api_base: 
+model: gpt-4-turbo-2024-04-09
+# model: gpt-4-1106-preview
+temperature: 0.0
+
