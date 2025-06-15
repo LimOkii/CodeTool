@@ -1,0 +1,10 @@
+torch
+openai==1.55.3
+vllm
+fastapi
+uvicorn
+pyyaml
+requests
+slowapi
+tenacity
+execnet

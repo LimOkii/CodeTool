@@ -6,13 +6,26 @@ In this paper, we introduce **CodeTool**, a stepwise code generation framework b
 
 ![image-20250524212835027](Figure/overview.png)
 
+# Installation
+
+## Environment Setup
+
+```txt
+# Create conda environment
+conda create -n codetool python=3.9
+conda activate codetool
+
+# Install requirements
+pip install -r requirements.txt
+```
+
 # Adaptations to StableToolBench
 
 ## 1、Build the API server
 
 To set up the API server, follow the [StableToolBench](https://github.com/THUNLP-MT/StableToolBench) instructions.
 
-First, download our cache from GoogleDrive()
+First, download the tool cache from [HuggingFace](https://huggingface.co/datasets/stabletoolbench/Cache/tree/main).
 
 After downloading, unzip the folder into the `StableToolBench/server` folder and ensure the `server` folder contains `tool_response_cache` folder and `tools` folder. The resulting folder of `server` looks like:
 
@@ -32,12 +45,12 @@ After downloading, unzip the folder into the `StableToolBench/server` folder and
 Next, specify your configurations in `StableToolBench/server/config.yml`
 
 ```yaml
-api_key: 
-api_base: 
-model: gpt-4-turbo-preview
+api_key: # your api_key
+api_base: # your api_base
+model: # model_name
 temperature: 0
 toolbench_url: http://8.130.32.149:8080/rapidapi
-rapidapi_key: 
+rapidapi_key: # your toolbench_key
 tools_folder: "./tools"
 cache_folder: "./tool_response_cache"
 is_save: true
@@ -67,10 +80,10 @@ For the training of the process Latent Reward model, we select tools and APIs th
 
 First, specify your configurations in `src/config.yaml`.
 
-```shell
+```yaml
 api_key: # your api_key
 api_base: # your api_base
-model: gpt-4o-nlp
+model: # model_name
 temperature: 0.9
 top_p: 0.95
 n: 2
@@ -82,8 +95,9 @@ MAX_DEPTH: 5
 To get the process data and rewards, please run the code:
 
 ```shell
+cd CodeTool
 export PYTHONPATH=./
-python run_rapid.py
+python src/run_rapid.py
 ```
 
 - The process data will be saved at `data/process_data/{test_set}/dfs_data/{query_id}_path.json`.
@@ -92,7 +106,15 @@ python run_rapid.py
 
 # Generative PRM Training
 
-Following previous work, to avoid disrupting the native structure of the LLM, we adopt a generative PRM training method. Specifically, we designate two special tokens to represent the `more potential` and `less potential` labels based on Latent Reward values, and then fully reuse the training method of SFT. If you have already obtained data pairs with different potential values, you can simply use the [LLaMA_Factory](https://github.com/hiyouga/LLaMA-Factory) framework for SFT training.
+Following previous work, to avoid disrupting the native structure of the LLM, we adopt a generative PRM training method. Specifically, we designate two special tokens to represent the `more potential` and `less potential` labels based on Latent Reward values, and then fully reuse the training method of SFT. 
+
+**Get the Train Data of Generative PRM**
+
+```shell
+python src/rm_generative_data.py
+```
+
+If you have already obtained data pairs with different potential values, you can simply use the [LLaMA_Factory](https://github.com/hiyouga/LLaMA-Factory) framework for SFT training.
 
 **Example Command for LLaMA-Factory STF Training.**
 
@@ -142,8 +164,6 @@ torchrun --nproc_per_node=8 src/train.py \
   --eval_strategy steps \
   --eval_steps 25
 ```
-
-
 
 # Inference
 
@@ -199,10 +219,10 @@ The PRM will run at `http://{host}:{port}/generate `(rm_url)
 Specify your configurations in `infer/config.yaml`.
 
 ```shell
-rm_url: http://11.220.39.172:8081/generate
-api_key: 
-api_base: 
-model: gpt-35-turbo-16k-0613-nlp
+rm_url:
+api_key:
+api_base:
+model:
 temperature: 0.9
 top_p: 0.95
 n: 2
@@ -276,13 +296,23 @@ python eval_pass_rate.py \
 bash eval/run_pass_rate.sh
 ```
 
+# Citation
 
+If you find this work helpful, please cite our paper:
 
+```shell
+@misc{lu2025codetoolenhancingprogrammatictool,
+      title={CodeTool: Enhancing Programmatic Tool Invocation of LLMs via Process Supervision}, 
+      author={Yifei Lu and Fanghua Ye and Jian Li and Qiang Gao and Cheng Liu and Haibo Luo and Nan Du and Xiaolong Li and Feiliang Ren},
+      year={2025},
+      eprint={2503.20840},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE},
+      url={https://arxiv.org/abs/2503.20840}, 
+}
+```
 
+# License
 
-
-
-
-
-
+This project is released under the [MIT License](https://github.com/LimOkii/CodeTool/main/LICENSE).
 
