@@ -1,0 +1,13 @@
+api_key: 
+api_base: 
+model:
+temperature: 0.9
+top_p: 0.95
+n: 2
+toolbench_key:
+stabletoolbench_server: http://0.0.0.0:8082/virtual
+MAX_DEPTH: 5
+
+
+
+
