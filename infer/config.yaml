@@ -1,0 +1,9 @@
+rm_url:
+api_key:
+api_base:
+model: 
+max_tokens: 2048
+temperature: 0.9
+top_p: 0.95
+n: 2
+tmdb_headers: {"Authorization": "Bearer "}
