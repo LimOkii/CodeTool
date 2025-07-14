@@ -301,14 +301,11 @@ bash eval/run_pass_rate.sh
 If you find this work helpful, please cite our paper:
 
 ```shell
-@misc{lu2025codetoolenhancingprogrammatictool,
-      title={CodeTool: Enhancing Programmatic Tool Invocation of LLMs via Process Supervision}, 
-      author={Yifei Lu and Fanghua Ye and Jian Li and Qiang Gao and Cheng Liu and Haibo Luo and Nan Du and Xiaolong Li and Feiliang Ren},
-      year={2025},
-      eprint={2503.20840},
-      archivePrefix={arXiv},
-      primaryClass={cs.SE},
-      url={https://arxiv.org/abs/2503.20840}, 
+@article{lu2025codetool,
+  title={CodeTool: Enhancing Programmatic Tool Invocation of LLMs via Process Supervision},
+  author={Lu, Yifei and Ye, Fanghua and Li, Jian and Gao, Qiang and Liu, Cheng and Luo, Haibo and Du, Nan and Li, Xiaolong and Ren, Feiliang},
+  journal={arXiv preprint arXiv:2503.20840},
+  year={2025}
 }
 ```
 
